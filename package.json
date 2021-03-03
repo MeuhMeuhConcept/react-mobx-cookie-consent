@@ -1,0 +1,43 @@
+{
+  "name": "react-mobx-cookie-consent",
+  "version": "1.0.0",
+  "description": "Rich cookie consent with react/mobx and bootstrap design",
+  "main": "build/index.js",
+  "repository": "git@github.com:MeuhMeuhConcept/react-mobx-cookie-consent.git",
+  "author": "jngermon <jn.germon@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "dev": "concurrently -k -n \"Typescript,Eslint\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"esw --watch --ext=.ts,.tsx src/js/*\"",
+    "eslint": "eslint --ext=.ts,.tsx src/js/*",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "@types/reactstrap": "^8.7.2",
+    "@types/universal-cookie": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "concurrently": "^6.0.0",
+    "eslint": "^7.21.0",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-watch": "^7.0.0",
+    "mobx": "^5.15.4",
+    "mobx-react": "^6.1.8",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "reactstrap": "^8.9.0",
+    "typescript": "^4.2.2",
+    "universal-cookie": "^4.0.4"
+  },
+  "peerDependencies": {
+    "mobx": "^5.15.4",
+    "mobx-react": "^6.1.8",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "reactstrap": "^8.9.0",
+    "typescript": "^4.2.2",
+    "universal-cookie": "^4.0.4"
+  }
+}
