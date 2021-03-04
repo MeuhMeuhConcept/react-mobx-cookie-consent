@@ -63,7 +63,6 @@ export class Store {
 
     @action
     public toggleDialog (): void {
-        console.log('toggle')
         this.dialogIsOpened = !this.dialogIsOpened
     }
 

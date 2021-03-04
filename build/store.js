@@ -39,7 +39,6 @@ class Store {
         this.dialogIsOpened = this.noCookie === true && this.nbNeedConcentServices > 0;
     }
     toggleDialog() {
-        console.log('toggle');
         this.dialogIsOpened = !this.dialogIsOpened;
     }
     addService(options) {
