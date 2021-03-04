@@ -9,3 +9,5 @@ export declare class Launcher extends React.Component<Props, State> {
     render(): React.ReactNode;
     renderContent(): React.ReactNode;
 }
+declare const _default: typeof Launcher;
+export default _default;

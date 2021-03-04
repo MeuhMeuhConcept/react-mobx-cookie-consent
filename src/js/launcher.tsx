@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { observer } from 'mobx-react'
 import { Store } from './store'
 
 export interface Props {
@@ -32,3 +33,5 @@ export class Launcher extends React.Component<Props, State> {
         return 'Manage cookie consent'
     }
 }
+
+export default observer(Launcher)

@@ -41,15 +41,19 @@ class Dialog extends React.Component {
     render() {
         const { store } = this.props;
         return React.createElement(React.Fragment, null,
-            React.createElement(reactstrap_1.Modal, { isOpen: store.dialogIsOpened, centered: true },
+            React.createElement(reactstrap_1.Modal, { isOpen: store.dialogIsOpened, centered: true, toggle: store.noCookie !== true ? () => store.toggleDialog() : undefined },
+                React.createElement(reactstrap_1.ModalHeader, { className: "cookie-consent-dialog-body", toggle: store.noCookie !== true ? () => store.toggleDialog() : undefined }, this.renderModalHeader()),
                 React.createElement(reactstrap_1.ModalBody, { className: "cookie-consent-dialog-body" }, this.renderModalBody()),
                 React.createElement(reactstrap_1.ModalFooter, { className: "cookie-consent-dialog-footer" },
                     React.createElement("button", { onClick: this.onAcceptClickHandler, className: "cookie-consent-dialog-btn-accept" }, this.renderButtonAcceptAll()),
                     React.createElement("button", { onClick: this.onDeclineClickHandler, className: "cookie-consent-dialog-btn-decline" }, this.renderButtonDeclineAll()),
                     this.props.enableCustomization && (React.createElement("button", { onClick: this.onCustomizeClickHandler, className: "cookie-consent-dialog-btn-customize" }, this.renderButtonCustomize())))));
     }
-    renderModalBody() {
+    renderModalHeader() {
         return 'Cookie Consent ?';
+    }
+    renderModalBody() {
+        return null;
     }
     renderButtonAcceptAll() {
         return 'Accept all';

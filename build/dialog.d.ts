@@ -8,6 +8,7 @@ export interface State {
 }
 export declare class Dialog extends React.Component<Props, State> {
     render(): React.ReactNode;
+    renderModalHeader(): React.ReactNode;
     renderModalBody(): React.ReactNode;
     renderButtonAcceptAll(): React.ReactNode;
     renderButtonDeclineAll(): React.ReactNode;

@@ -1,6 +1,6 @@
 {
   "name": "react-mobx-cookie-consent",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Rich cookie consent with react/mobx and bootstrap design",
   "main": "build/index.js",
   "repository": "git@github.com:MeuhMeuhConcept/react-mobx-cookie-consent.git",

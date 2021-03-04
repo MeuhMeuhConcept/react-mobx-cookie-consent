@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
 import { Store } from './store'
-import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 
 export interface Props {
     store: Store
@@ -18,7 +18,10 @@ export class Dialog extends React.Component<Props, State> {
         const { store } = this.props
 
         return <>
-            <Modal isOpen={store.dialogIsOpened} centered>
+            <Modal isOpen={store.dialogIsOpened} centered toggle={store.noCookie !== true ? () => store.toggleDialog() : undefined}>
+                <ModalHeader className="cookie-consent-dialog-body" toggle={store.noCookie !== true ? () => store.toggleDialog() : undefined}>
+                    { this.renderModalHeader() }
+                </ModalHeader>
                 <ModalBody className="cookie-consent-dialog-body">
                     { this.renderModalBody() }
                 </ModalBody>
@@ -39,8 +42,12 @@ export class Dialog extends React.Component<Props, State> {
         </>
     }
 
-    renderModalBody (): React.ReactNode {
+    renderModalHeader (): React.ReactNode {
         return 'Cookie Consent ?'
+    }
+
+    renderModalBody (): React.ReactNode {
+        return null
     }
 
     renderButtonAcceptAll (): React.ReactNode {

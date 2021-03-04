@@ -21,6 +21,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Launcher = void 0;
 const React = __importStar(require("react"));
+const mobx_react_1 = require("mobx-react");
 class Launcher extends React.Component {
     render() {
         const { store } = this.props;
@@ -35,3 +36,4 @@ class Launcher extends React.Component {
     }
 }
 exports.Launcher = Launcher;
+exports.default = mobx_react_1.observer(Launcher);
