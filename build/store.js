@@ -5,10 +5,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Service = exports.Store = void 0;
 const mobx_1 = require("mobx");
-const universal_cookie_1 = require("universal-cookie");
+const universal_cookie_1 = __importDefault(require("universal-cookie"));
+const lodash_1 = require("lodash");
 class Store {
     constructor(options) {
         this.services = [];
@@ -16,7 +20,8 @@ class Store {
         this.isAcceptAll = false;
         this.noCookie = undefined;
         this.initConsents = [];
-        this._options = Object.assign({
+        this.dialogIsOpened = false;
+        this._options = lodash_1.merge({
             cookie: {
                 name: 'rmcc',
                 path: '/',
@@ -24,10 +29,17 @@ class Store {
                 secure: true
             }
         }, options);
-        this._cookies = new universal_cookie_1.default();
+        this._cookies = new universal_cookie_1.default(options.cookies);
+    }
+    initialization() {
+        this.initialize(); //For react-mobx-store-container compatibility
     }
     initialize() {
         this.loadTokenFromCookie();
+        this.dialogIsOpened = this.noCookie === true && this.nbNeedConcentServices > 0;
+    }
+    toggleDialog() {
+        this.dialogIsOpened = !this.dialogIsOpened;
     }
     addService(options) {
         const already = this.findService(options.id);
@@ -60,6 +72,7 @@ class Store {
         this.isAcceptAll = true;
         this.isDeclineAll = false;
         this.saveConsentsInCookie();
+        this.dialogIsOpened = false;
     }
     declineAll() {
         for (const service of this.services) {
@@ -68,6 +81,7 @@ class Store {
         this.isAcceptAll = false;
         this.isDeclineAll = true;
         this.saveConsentsInCookie();
+        this.dialogIsOpened = false;
     }
     get consents() {
         const consents = [];
@@ -80,7 +94,7 @@ class Store {
     }
     loadTokenFromCookie() {
         const cookie = this._cookies.get(this._options.cookie.name);
-        if (!cookie) {
+        if (cookie === undefined) {
             this.noCookie = true;
             return;
         }
@@ -92,6 +106,9 @@ class Store {
                 service.accept();
             }
         }
+    }
+    get nbNeedConcentServices() {
+        return (this.services.filter((s) => s.needConsent)).length;
     }
     findService(id) {
         for (const service of this.services) {
@@ -108,6 +125,7 @@ class Store {
             secure: this._options.cookie.secure,
         };
         this._cookies.set(this._options.cookie.name, this.consents.join('|'), options);
+        this.noCookie = false;
     }
 }
 __decorate([
@@ -122,6 +140,15 @@ __decorate([
 __decorate([
     mobx_1.observable
 ], Store.prototype, "noCookie", void 0);
+__decorate([
+    mobx_1.observable
+], Store.prototype, "dialogIsOpened", void 0);
+__decorate([
+    mobx_1.action
+], Store.prototype, "initialize", null);
+__decorate([
+    mobx_1.action
+], Store.prototype, "toggleDialog", null);
 __decorate([
     mobx_1.action
 ], Store.prototype, "addService", null);
@@ -143,6 +170,9 @@ __decorate([
 __decorate([
     mobx_1.action
 ], Store.prototype, "loadTokenFromCookie", null);
+__decorate([
+    mobx_1.computed
+], Store.prototype, "nbNeedConcentServices", null);
 exports.Store = Store;
 class Service {
     constructor(options) {
@@ -154,14 +184,23 @@ class Service {
     get needConsent() {
         return this._options.needConsent;
     }
-    get name() {
-        return this._options.name;
-    }
     get type() {
         return this._options.type;
     }
+    get name() {
+        return this._options.name;
+    }
     get cookies() {
         return this._options.cookies ? this._options.cookies : [];
+    }
+    get definition() {
+        return {
+            id: this.id,
+            needConsent: this.needConsent,
+            type: this.type,
+            name: this.name,
+            cookies: this.cookies
+        };
     }
     accept() {
         if (this.consent) {
